@@ -1,0 +1,106 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Lite ACSL language support for Visual Studio Code",
+	"patterns": [
+		{ "include": "#annotatoion" },
+		{ "include": "#inline-annotatoion" },
+		{ "include": "#c-likecode" }
+	],
+	"repository": {
+		"annotatoion" : {
+			"begin": "\\s*+(\\/\\*\\@)",
+    		"end": "\\*\\/",
+			"beginCaptures": {
+				"0": { "name": "entity.section.acsl" }
+			},
+			"endCaptures": {
+				"0": { "name": "entity.section.acsl" }
+			},
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#keyword" },
+				{ "include": "#supported-function" },
+				{ "include": "#operators" },
+				{ "include": "#numbers" },
+				{ "include": "#function"}
+			]
+		},
+		"inline-annotatoion" : {
+			"begin": "\\s*+(//@)",
+    		"end": "\n",
+			"beginCaptures": {
+				"0": { "name": "entity.section.acsl" }
+			},
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#keyword" },
+				{ "include": "#supported-function" },
+				{ "include": "#operators" },
+				{ "include": "#numbers" },
+				{ "include": "#function"}
+			]
+		},
+		"comment": {
+			"patterns": [{
+				"name": "comment.line.double-slash.acsl",
+				"begin": "//",
+				"end": "\\n"
+			}]
+		},
+		"keyword": {
+			"patterns": [{
+				"name": "keyword.control.acsl",
+				"match": "\\b(assert|assigns|assumes|allocates|axiom|axiomatic|behavior|behaviors|breaks|case|char|complete|continues|decreases|disjoint|double|else|ensures|enum|exits|float|for|frees|if|inductive|int|integer|invariant|global|label|lemma|logic|long|loop|pragma|predicate|reads|real|requires|returns|short|signed|sizeof|slice|impact|struct|terminates|type|union|unsigned|variant|void)\\b"
+			}]
+		},
+		"supported-function": {
+			"patterns": [{
+				"name": "support.constant.acsl",
+				"match": "\\\\\\b(valid|forall|exists|old)\\b"
+			}]
+		},
+		"operators": {
+			"patterns": [
+				{ "include": "#binary-operator" },
+				{ "include": "#unary-operator" }
+			]
+		},
+		"binary-operator": {
+			"patterns": [{
+				"name": "keyword.operator.acsl",
+				"match": "(\\+|-|\\*|/|%|<<|>>|==|!=|<=|>=|>|<|&&|\\|\\||&|-->|<-->|\\^|\\^\\^|\\.\\.)"
+			}]
+		},
+		"unary-operator": {
+			"patterns": [{
+				"name": "keyword.operator.acsl",
+				"match": "(\\+|-|\\*|/|%|<<|>>|==|!=|<=|>=|>|<|&&|\\|\\||&|-->|<-->|\\^|\\^\\^|\\.\\.)"
+			}]
+		},
+		"numbers": {
+			"patterns": [{
+				"name": "constant.numeric.acsl",
+				"match": "\\b((0(x|X)[0-9a-fA-F]([0-9a-fA-F']*[0-9a-fA-F])?)|(0(b|B)[01]([01']*[01])?)|(([0-9]([0-9']*[0-9])?\\.?[0-9]*([0-9']*[0-9])?)|(\\.[0-9]([0-9']*[0-9])?))((e|E)(\\+|-)?[0-9]([0-9']*[0-9])?)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\\b"
+			}]
+		},
+		"function": {
+			"patterns": [
+				{
+					"match": "\\b\\w+(?=\\((\\\\?\\w+\\s*,?\\s*)*\\))",
+					"name": "entity.name.function.acsl"
+				 },
+				 {
+					"match": "\\b\\w+(?=\\{(\\w+\\s*,?\\s*)*\\}(\\((\\w+\\s*,?\\s*)*\\))?)",
+					"name": "entity.name.function.acsl"
+				}
+			]
+		},
+		"c-likecode" : {
+			"patterns": [{
+				"name": "comment.line.double-slash.acsl",
+				"match": "^((?!\\/\\*\\@\b).)*$"
+			}]
+		}
+	},
+	"scopeName": "source.acsl"
+}
